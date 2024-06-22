@@ -1,0 +1,50 @@
+- id: install-dependencies
+  name: Installing lcandesign dependencies
+  description: install dependencies
+  entry: hooks/install-dependencies.sh
+  language: script
+- id: pest-test
+  name: Pest Test
+  description: Run the full php unit test. It run `php artisan test`.
+  entry: hooks/pest.sh
+  language: script
+  pass_filenames: false
+  files: \.php$
+- id: pint-subdir
+  name: Pint subdir
+  description: Run `./vendor/bin/pint` in a inner directory.
+  entry: hooks/pint-subdir.sh
+  language: script
+  pass_filenames: false
+  types: [php]
+- id: phpcbf-subdir
+  name: Phpcbf subdir
+  description: Run `./vendor/bin/phpcbf` in a inner directory.
+  entry: hooks/phpcbf-subdir.sh
+  args: ['src', '--standard=PSR12']
+  language: script
+  pass_filenames: false
+  types: [php]
+- id: phpstan-subdir
+  name: Phpstan subdir
+  description: Run `./vendor/bin/phpstan` in a inner directory.
+  entry: hooks/phpstan-subdir.sh
+  args: ['src']
+  language: script
+  pass_filenames: true
+  types: [php]
+- id: phpcs-subdir
+  name: Phpcs subdir
+  description: Run `./vendor/bin/phpcs` in a inner directory.
+  entry: hooks/phpcs-subdir.sh
+  args: ['src',  '--report=code', --colors, '--report-width=80', '--standard=PSR12', '--ignore=resources/lang,resources/views,bootstrap/helpers,database/migrations,bin']
+  language: script
+  pass_filenames: true
+  types: [php]
+- id: ia-review
+  name: openIA-CR for commited files
+  description: ask chatGPT for CR for commited files.
+  entry: hooks/ia-review.sh
+  language: script
+  pass_filenames: false
+  files: \.(js|ts|vue|php|cs|java|py)$
